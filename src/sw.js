@@ -71,3 +71,6 @@ self.addEventListener('fetch', (event) => {
       })
     );
 });
+
+import { precacheAndRoute } from 'workbox-precaching';
+precacheAndRoute(self.__WB_MANIFEST);

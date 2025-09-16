@@ -14,6 +14,8 @@ RUN npm ci
 COPY . .
 
 # Build Astro
+ENV NODE_ENV=production
+
 RUN npm run build
 
 

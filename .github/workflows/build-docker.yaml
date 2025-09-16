@@ -11,10 +11,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build image
-        run: docker build . -t joseauguston27/astro-blog:latest
+        run: docker build -t joseaugustonerotou/astro-blog:latest
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u joseaugustonerotou --password-stdin
 
       - name: Push image to Docker Hub
-        run: docker push joseauguston27/astro-blog:latest
+        run: docker push joseaugustonerotou/astro-blog:latest

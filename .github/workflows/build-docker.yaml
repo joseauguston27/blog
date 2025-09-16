@@ -1,6 +1,7 @@
 name: Build and Publish image to Docker Hub
+
 on:
-  [workflow_dispatch]
+  workflow_dispatch:
 
 jobs:
   publish_images:
@@ -8,9 +9,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: build image
+
+      - name: Build image
         run: docker build . -t joseauguston27/astro-blog:latest
-      - name: push image to docker hub
-        run: 
-          docker login -u joseaugustonerotou -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push joseauguston27/astro-blog:latest
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u joseaugustonerotou --password-stdin
+
+      - name: Push image to Docker Hub
+        run: docker push joseauguston27/astro-blog:latest

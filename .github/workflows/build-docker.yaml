@@ -14,19 +14,7 @@ jobs:
         run: docker build -t joseaugustonerotou/astro-blog:latest .
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: joseaugustonerotou
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u joseaugustonerotou --password-stdin
 
-      - name: Build front-end image
-        run: docker build -t joseaugustonerotou/astro-blog:latest ./front-end-astro
-
-      - name: Build back-end image  
-        run: docker build -t joseaugustonerotou/astro-blog:latest ./back-end-astro
-
-      - name: Push images to Docker Hub
-        run: |
-          docker push joseaugustonerotou/astro-blog:latest
-          docker push joseaugustonerotou/astro-blog:latest ./front-end-astro
-          docker push joseaugustonerotou/astro-blog:latest ./back-end-astro
+      - name: Push image to Docker Hub
+        run: docker push joseaugustonerotou/astro-blog:latest

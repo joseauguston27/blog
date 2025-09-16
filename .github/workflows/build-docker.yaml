@@ -11,4 +11,6 @@ jobs:
       - name: build image
         run: docker build . -t joseauguston27/astro-blog:latest
       - name: push image to docker hub
-        run: docker push joseauguston27/astro-blog:latest
+        run: 
+          docker login -u joseaugustonerotou -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push joseauguston27/astro-blog:latest

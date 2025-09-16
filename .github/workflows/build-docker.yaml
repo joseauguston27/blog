@@ -15,6 +15,9 @@ jobs:
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u joseaugustonerotou --password-stdin
+        run: docker build -t joseaugustonerotou/astro-blog:latest ./front-end-astro
 
       - name: Push image to Docker Hub
         run: docker push joseaugustonerotou/astro-blog:latest
+        run: docker push joseaugustonerotou/astro-blog:latest ./front-end-astro
+

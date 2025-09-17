@@ -1,31 +1,22 @@
-# Stage build
-FROM node:18 AS builder
+FROM node:18
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json dan package-lock.json
+# install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    make \
+    g++
+
+# install dependencies
 COPY package*.json ./
+RUN npm install
 
-# Install dependencies sesuai lockfile
-RUN npm ci
-
-# Copy seluruh source code
+# copy source code
 COPY . .
 
-# Build Astro
-ENV NODE_ENV=production
+# expose port
+EXPOSE 4321
 
-RUN npm run build
-
-
-# Stage serve dengan Nginx (lebih ringan & cepat)
-FROM nginx:alpine
-
-# Copy hasil build dari builder
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Expose port
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# start astro dev server
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "4321"]

@@ -1,4 +1,4 @@
-# Astro Starter
+# Astro Starter Jose
 
 ```sh
 npm create astro@latest -- --template minimal

@@ -44,7 +44,3 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: joseaugustonerotou/astro-blog:latest
-          build-args: |
-            ROLLUP_SKIP_NODEJS=true
-            npm_config_platform=linux
-            npm_config_arch=x64

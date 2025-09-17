@@ -26,25 +26,26 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Set up QEMU for multi-arch builds
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      # Login to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: joseaugustonerotou
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          
-      - name: Build and push
+
+      - name: Build and push without Dockerfile
         uses: docker/build-push-action@v4
         with:
-          context: .
           push: true
+          context: .
+          file: inline://
+            FROM node:18
+            WORKDIR /app
+            RUN apt-get update && apt-get install -y python3 make g++
+            COPY package*.json ./
+            RUN npm install
+            COPY . .
+            EXPOSE 4321
+            CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
           platforms: linux/amd64,linux/arm64
-          tags: joseaugustonerotou/astro-blog:latest
-          build-args: |
-            ROLLUP_SKIP_NODEJS=true
-            npm_config_platform=linux
-            npm_config_arch=x64
+          tags: |
+            ${{ env.DOCKER_HUB_REPOSITORY }}:latest
